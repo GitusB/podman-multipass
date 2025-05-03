@@ -11,5 +11,7 @@ Prerequitsites: https://brew.sh home brew installed (you probably already have t
  ## Scripts
 
  * setup.sh     - Run all the scripts below....
- * install.sh   - Optional script to install packages
- * 
+ *  install.sh   - Optional script to install packages
+ *  multipass.sh - create the multipadd instance
+ *  podman.sh    - create the podman connections
+ * purge.sh      - remove all of the above Usage purge.sh instance_name

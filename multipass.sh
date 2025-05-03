@@ -1,9 +1,15 @@
 #!/bin/bash
 #
-# Create a multipass vm with name podman_machine
+# Create a multipass vm with name podman_machine TODO basic error checks
 #
-# Chnge values here for different VM sizes
-MP_NAME="podman-machine"
+if [ -z "$1" ]; then
+  echo " * no instance name specified"
+  exit 1
+else
+  MP_NAME="$1"
+fi
+
+# Change values here for different VM sizes
 MP_CORE=2
 MP_MEM="4G"
 MP_DISK="40G"
@@ -17,12 +23,12 @@ multipass exec $MP_NAME -- /home/ubuntu/setup-podman.sh
 
 
 # Volume mounts 
-echo "# Mounting local folders..."
-multipass mount /Users $MP_NAME
-multipass mount /Volumes $MP_NAME
-multipass mount /private $MP_NAME
-multipass mount /tmp $MP_NAME
-multipass mount /var/folders $MP_NAME
+# echo "# Mounting local folders..."
+# multipass mount /Users $MP_NAME
+# multipass mount /Volumes $MP_NAME
+# multipass mount /private $MP_NAME
+# multipass mount /tmp $MP_NAME
+# multipass mount /var/folders $MP_NAME
 
 # restart
 echo "# Restarting instance"
