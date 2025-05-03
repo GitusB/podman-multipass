@@ -1,0 +1,37 @@
+users:
+  - default
+
+write_files:
+  - path: /home/ubuntu/setup-podman.sh
+    content: |
+      #!/bin/bash
+
+      # Set correct permission on own home folder
+      sudo chown ubuntu:ubuntu .
+      chmod 755 .
+
+      # Install podman
+      . /etc/os-release
+      sudo apt update
+      sudo apt install podman fuse-overlayfs -y
+      # root mode configuration
+      #sudo cp /home/ubuntu/.ssh/authorized_keys /root/.ssh/authorized_keys
+      #sudo systemctl --system enable --now podman.socket
+      # rootless mode configuration
+      echo "net.ipv4.ip_unprivileged_port_start=80" | sudo tee -a /etc/sysctl.conf
+      sudo sysctl --system &> /dev/null
+      systemctl --user enable --now podman.socket
+      sudo loginctl enable-linger $USER
+      # start ssh
+      sudo systemctl enable --now ssh.service
+    permissions: "0755"
+
+runcmd:
+  - sudo cp /etc/skel/.bashrc /home/ubuntu/.bashrc
+  - sudo cp /etc/skel/.bash_logout /home/ubuntu/.bash_logout
+  - sudo cp /etc/skel/.profile /home/ubuntu/.profile
+  - echo "192.168.10.10 docker.for.mac.localhost" | sudo tee -a /etc/cloud/templates/hosts.debian.tmpl
+
+bootcmd:
+  - printf "[Resolve]\nDNS=1.1.1.1\nFallbackDNS=1.0.0.1" > /etc/systemd/resolved.conf
+  - [systemctl, restart, systemd-resolved]
