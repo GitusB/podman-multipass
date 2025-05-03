@@ -3,7 +3,7 @@
 # Create a multipass vm with name podman_machine TODO basic error checks
 #
 if [ -z "$1" ]; then
-  echo " * no instance name specified"
+  echo " * no instance name specified!!"
   exit 1
 else
   MP_NAME="$1"

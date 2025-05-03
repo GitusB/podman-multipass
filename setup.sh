@@ -5,12 +5,12 @@
 # TODO: more error checking
 #
 if [ -z "$1" ]; then
-  echo " * no instance name specified"
-  exit 1
-else
+  echo "# No instance name specified!"
+  echo "# using podman-machine ad name."
   MP_NAME="podman-machine"
+else
+  MP_NAME=$1
 fi
-
 
 # Install packages if missing
 if [ -f ./install.sh ]; then
